@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import type { ApiSettings, Member, Task } from './types'
 import { DEMO_MEMBERS, buildDemoTasks } from './demoData'
-import { today } from './utils'
+import { sweepOverdue } from './overdue'
 
 const KEYS = {
   members: 'tlb.members',
@@ -22,6 +22,7 @@ const DEFAULT_SETTINGS: ApiSettings = {
   geminiKey: '',
   geminiModel: 'gemini-1.5-flash',
   context: '',
+  skipWeekends: false,
 }
 
 function load<T>(key: string, fallback: T): T {
@@ -66,28 +67,18 @@ export function useStore() {
     document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
 
-  // 逾期未回報自動計入紅燈：日期已過（早於今日）且未提交成果者
+  // 逾期自動處罰：開啟時、每分鐘、切回分頁時檢查（跨過 24:00 即生效）
   useEffect(() => {
-    const t = today()
-    setTasks((prev) => {
-      let changed = false
-      const next = prev.map((task) => {
-        if (!task.light && task.date < t) {
-          changed = true
-          return {
-            ...task,
-            light: 'red' as const,
-            comment: '逾期未回報，系統自動計入紅燈。',
-            gradedBy: 'system' as const,
-            overdue: true,
-            submittedAt: new Date().toISOString(),
-          }
-        }
-        return task
-      })
-      return changed ? next : prev
-    })
-  }, [])
+    const run = () => setTasks((prev) => sweepOverdue(prev, members, settings.skipWeekends) ?? prev)
+    run()
+    const timer = window.setInterval(run, 60_000)
+    const onVisible = () => document.visibilityState === 'visible' && run()
+    document.addEventListener('visibilitychange', onVisible)
+    return () => {
+      window.clearInterval(timer)
+      document.removeEventListener('visibilitychange', onVisible)
+    }
+  }, [members, settings.skipWeekends])
 
   const addMember = useCallback((m: Member) => {
     setMembers((prev) => [...prev, m])

@@ -75,6 +75,14 @@ export function ApiSettingsModal({ settings, onSave, onClose }: { settings: ApiS
           <p className="text-[11px] text-slate-500">每家輔導公司可填不同重點；內建規則引擎不使用此欄位。</p>
         </div>
 
+        <label className="mt-4 flex cursor-pointer items-start gap-2 rounded-xl border border-red-500/30 bg-red-500/5 p-3 text-sm">
+          <input type="checkbox" className="mt-1 accent-red-500" checked={!!draft.skipWeekends} onChange={(e) => set('skipWeekends', e.target.checked)} />
+          <span>
+            <span className="font-semibold">週六、週日免填計畫</span>
+            <span className="block text-xs text-slate-500 dark:text-slate-400">逾期處罰：每日 24:00 後，未送審的任務自動計入 🔴「逾期未回報」；當日完全沒填計畫者補登 🔴「未填計畫」。勾選後週末不補登未填計畫。</span>
+          </span>
+        </label>
+
         <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">
           API Key 僅儲存於您瀏覽器的 localStorage，直接由瀏覽器呼叫供應商 API，不會傳送至任何第三方伺服器。若 Key 為空將自動回退至內建規則引擎。
         </p>

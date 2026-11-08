@@ -7,7 +7,7 @@ import type { ApiSettings, Task } from '../types'
 import { LIGHT_META } from '../types'
 import { gradeTask } from '../grading'
 import { Lamp, TrafficLight, lightBg, lightText } from './Lamp'
-import { weekdayZh } from '../utils'
+import { today, weekdayZh } from '../utils'
 
 export function CloseoutPanel({
   tasks,
@@ -104,7 +104,7 @@ export function CloseoutPanel({
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 text-[11px] text-slate-500">
                     <span>{t.date}（{weekdayZh(t.date)}）</span>
-                    {t.date < new Date().toISOString().slice(0, 10) && <span className="rounded bg-red-500/20 px-1 text-red-500">逾期</span>}
+                    {t.date < today() && <span className="rounded bg-red-500/20 px-1 text-red-500">逾期</span>}
                   </div>
                   <div className="truncate font-medium">{t.plan}</div>
                   {t.dod && <div className="truncate text-xs text-slate-500 dark:text-slate-400">完成標準：{t.dod}</div>}

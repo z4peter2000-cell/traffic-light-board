@@ -101,7 +101,7 @@ export default function App() {
         </div>
 
         <footer className="flex items-center justify-center gap-2 pb-6 text-xs text-slate-400">
-          <Activity className="h-3.5 w-3.5" /> 資料儲存於瀏覽器 localStorage ‧ 逾期未回報任務於隔日自動計入 🔴 紅燈
+          <Activity className="h-3.5 w-3.5" /> 資料儲存於瀏覽器 localStorage ‧ 每日 24:00 後，未送審或未填計畫者自動計入 🔴 紅燈
         </footer>
       </main>
 

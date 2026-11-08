@@ -20,6 +20,8 @@ export interface Member {
   /** 職稱 */
   role: string
   color: string
+  /** 加入日期（自隔日起需每日填報） */
+  joinedAt?: string
 }
 
 export const UNASSIGNED_DEPT = '未分類'
@@ -46,6 +48,8 @@ export interface Task {
   comment?: string
   gradedBy?: 'rules' | 'openai' | 'gemini' | 'system'
   overdue?: boolean
+  /** 當日未填寫計畫，系統自動補登的紅燈 */
+  missedPlan?: boolean
   /** AI 含金定級（未儲存時以 tierOf 即時判定） */
   tier?: Tier
   tierReason?: string
@@ -62,6 +66,8 @@ export interface ApiSettings {
   geminiModel: string
   /** 公司本季重點（脈絡提示），供 LLM 判定含金定級與燈號時加權 */
   context: string
+  /** 週六日不檢查未填計畫 */
+  skipWeekends: boolean
 }
 
 export interface GradeResult {
