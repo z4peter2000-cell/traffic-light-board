@@ -20,7 +20,10 @@ export function sweepOverdue(tasks: Task[], members: Member[], skipWeekends: boo
   const stamp = now.toISOString()
   let changed = false
 
-  const next = tasks.map((task) => {
+  const kept = skipWeekends ? tasks.filter((task) => !(task.missedPlan && isWeekend(task.date))) : tasks
+  if (kept.length !== tasks.length) changed = true
+
+  const next = kept.map((task) => {
     if (task.light || task.date >= t) return task
     changed = true
     return {
