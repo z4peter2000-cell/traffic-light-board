@@ -57,6 +57,7 @@ export function CloseoutPanel({
         light: g.light,
         comment: g.comment,
         gradedBy: g.gradedBy,
+        overdue: false,
       }
       onUpdate(selected.id, patch)
       const graded = { ...selected, ...patch }
