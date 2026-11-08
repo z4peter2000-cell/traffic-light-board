@@ -28,7 +28,7 @@ export function HistoryList({ tasks }: { tasks: Task[] }) {
                 {t.progress !== undefined && <span>完成度 {t.progress}%</span>}
                 <TierBadge tier={tierOf(t)} title={`${t.tierReason ?? '含金定級'} ｜ 定級：${t.tierBy === 'openai' ? 'OpenAI' : t.tierBy === 'gemini' ? 'Gemini' : '規則引擎'} ｜ 實得 ${earnedGold(t)} 分`} />
                 <span className="text-orange-500 dark:text-orange-300">實得 {earnedGold(t)} 分</span>
-                {t.overdue && <span className="rounded bg-red-500/20 px-1 text-red-500">逾期未回報</span>}
+                {t.overdue && <span className="rounded bg-red-500/20 px-1 text-red-500">{t.missedPlan ? '未填計畫' : '逾期未回報'}</span>}
                 <span className="ml-auto">{t.gradedBy === 'rules' ? '規則引擎' : t.gradedBy === 'system' ? '系統' : t.gradedBy === 'openai' ? 'OpenAI' : t.gradedBy === 'gemini' ? 'Gemini' : ''}</span>
               </div>
               <div className="font-medium">{t.plan}</div>

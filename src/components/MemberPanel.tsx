@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Plus, Search, Trash2, UserRound, Users } from 'lucide-react'
 import type { Member } from '../types'
 import { deptOf, memberLabel } from '../types'
-import { uid } from '../utils'
+import { today, uid } from '../utils'
 
 const COLORS = ['#38bdf8', '#f472b6', '#a78bfa', '#fb923c', '#34d399', '#facc15', '#f87171', '#60a5fa']
 
@@ -43,7 +43,7 @@ export function MemberPanel({
 
   const submit = () => {
     if (!name.trim()) return
-    onAdd({ id: uid(), name: name.trim(), dept: dept.trim() || '未分類', role: role.trim() || '團隊成員', color: COLORS[members.length % COLORS.length] })
+    onAdd({ id: uid(), name: name.trim(), dept: dept.trim() || '未分類', role: role.trim() || '團隊成員', color: COLORS[members.length % COLORS.length], joinedAt: today() })
     setName('')
     setDept('')
     setRole('')
